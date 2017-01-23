@@ -1,5 +1,6 @@
 package fr.etma.navigator.control.joystick;
 
+import javax.vecmath.AxisAngle4d;
 import javax.vecmath.Quat4d;
 import javax.vecmath.Vector3d;
 
@@ -21,6 +22,25 @@ public class ControllerJoystick extends Thread {
 	protected Vector3d deltaT = new Vector3d () ;
 	protected Quat4d deltaR = new Quat4d () ;
 	protected Navigator navigator ;
+	
+	// button names
+	final static String BUT_1 = "Trigger";
+	final static String BUT_2 = "Thumb";
+	final static String BUT_3 = "Thumb 2";
+	final static String BUT_4 = "Top";
+	final static String BUT_L1 = "Top 2";
+	final static String BUT_R1 = "Pinkie";
+	final static String BUT_L2 = "Base";
+	final static String BUT_R2 = "Base 2";
+	final static String BUT_L3 = "Base 5";
+	final static String BUT_R3 = "Base 6";
+	final static String BUT_SELECT = "Base 3";
+	final static String BUT_START = "Base 4";
+
+	final static String BUT_LEFT_ANALOG_HORIZONTAL = "z"; // -1 to left, 1 to right
+	final static String BUT_LEFT_ANALOG_VERTICAL = "rx"; // -1 to up, 1 to down
+	final static String BUT_RIGHT_ANALOG_HORIZONTAL = "y"; // -1 to left, 1 to right
+	final static String BUT_RIGHT_ANALOG_VERTICAL = "z"; // -1 to up, 1 to down	
 
 	public ControllerJoystick (Navigator navigator) {
 		super();
@@ -85,8 +105,13 @@ public class ControllerJoystick extends Thread {
 			buffer.append(event.getNanos()).append(", ");
 			Component comp = event.getComponent();
 			buffer.append(comp.getName()).append(" changed to ");
-			float value = event.getValue(); 
+			float value = event.getValue();
+			
+			// sniffer here
 			if(comp.isAnalog()) {
+				if(comp.getName().equals(BUT_LEFT_ANALOG_HORIZONTAL)){
+					buffer.append("------------" + indexOfComponent(comp) + "-----------");
+				}
 				buffer.append(value);
 			} else {
 				if(value==1.0f) {
@@ -95,10 +120,48 @@ public class ControllerJoystick extends Thread {
 					buffer.append("Off");
 				}
 			}
+			
+			// joystick actions here
+			double trans_speed = 0.1;
+			double rotat_speed = 0.02;
+			double transValue = value * trans_speed;
+			double rotationValue = value * rotat_speed;
+			
+			// BUT_LEFT_ANALOG_HORIZONTAL == BUT_RIGHT_ANALOG_VERTICAL
+			// so we need to check index
+			if(comp.getName().equals(BUT_LEFT_ANALOG_HORIZONTAL)){
+				if(indexOfComponent(comp) == 13) {
+					deltaT.x = transValue;
+				}
+			} if(comp.getName().equals(BUT_RIGHT_ANALOG_VERTICAL)){
+				deltaR.set(new AxisAngle4d (new Vector3d (1, 0, 0), -rotationValue));
+			} else if(comp.getName().equals(BUT_LEFT_ANALOG_VERTICAL)){
+				deltaT.z = transValue;
+			} else if(comp.getName().equals(BUT_RIGHT_ANALOG_HORIZONTAL)){
+				deltaR.set(new AxisAngle4d (new Vector3d (0, 1, 0), -rotationValue));
+			} else if(comp.getName().equals(BUT_R1)){
+				deltaT.y = (value>0) ? trans_speed : 0; 
+			} else if(comp.getName().equals(BUT_R2)){
+				deltaT.y = (value>0) ? -trans_speed : 0; 
+			} else if(comp.getName().equals(BUT_L1)){
+				deltaT.y = (value>0) ? trans_speed : 0; 
+			} else if(comp.getName().equals(BUT_L2)){
+				deltaT.y = (value>0) ? -trans_speed : 0; 
+			}
+			
 			System.out.println(buffer.toString());
 		}
 	}
 
+	private int indexOfComponent(Component comp){
+		for(int i=0; i<this.components.length; i++){
+			if(comp.equals(components[i])){
+				return i;
+			}
+		}
+		return -1;
+	}
+	
 	public void finish () {
 		finished = true ;
 	}
@@ -109,8 +172,8 @@ public class ControllerJoystick extends Thread {
 			synchronized (deltaT) {
 				synchronized (deltaR) {
 					pollInput();
-					//navigator.supportRotateInHeadFrame (deltaR.x, deltaR.y, deltaR.z, deltaR.w) ;
-					//navigator.supportTranslateInHeadFrame (deltaT.x, deltaT.y, deltaT.z) ; 
+					navigator.supportRotateInHeadFrame (deltaR.x, deltaR.y, deltaR.z, deltaR.w) ;
+					navigator.supportTranslateInHeadFrame (deltaT.x, deltaT.y, deltaT.z) ; 
 				}
 			}
 			try {
