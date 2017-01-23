@@ -11,7 +11,7 @@ public class ControllerJoystick {
 	Controller[] ca;
 	int gp=0; //to store controller number of the gamepad
 
-	public void start() {
+	public void showGamepadInfo(){
 		try {
 			ca = ControllerEnvironment.getDefaultEnvironment().getControllers();          
 			for(int i=0;i<ca.length;i++){
@@ -45,15 +45,17 @@ public class ControllerJoystick {
 			e.printStackTrace();
 			System.exit(0);
 		}
+	}
+	
+	public void start() {
+		showGamepadInfo();
 
 		while (true) {
-			// render OpenGL here
 			pollInput();
 		}
 	}
 
 	public void pollInput() {
-
 		ca[gp].poll();
 		EventQueue queue = ca[gp].getEventQueue();
 		Event event = new Event();
