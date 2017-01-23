@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ASCII" standalone="yes"?><test date='Mon_Jan_23_19_37_43_CET_2017'>
+<step> <id>0</id><status>RIGHT</status><duration>0.02</duration><length>0.09999999999999991</length><rotation> 0.0</rotation><precision>0.0</precision></step> 
+<step> <id>0</id><status>WRONG</status><duration>0.02</duration><length>0.09999999999999991</length><rotation> 0.0</rotation><precision>0.0</precision></step> 
+<step> <id>1</id><status>RIGHT</status><duration>1.147</duration><length>5.700000000000025</length><rotation> 0.03195641639408233</rotation><precision>0.90302511390391</precision></step> 
+<step> <id>2</id><status>RIGHT</status><duration>12.878</duration><length>43.69999980715612</length><rotation> 1.947445510731431</rotation><precision>1.3652186538576856</precision></step> 
+<step> <id>3</id><status>RIGHT</status><duration>18.082</duration><length>58.5999998071564</length><rotation> 3.2554093791120384</rotation><precision>1.5600583749121926</precision></step> 
+<step> <id>1</id><status>WRONG</status><duration>34.539</duration><length>92.09999980715891</length><rotation> 25.805756906897418</rotation><precision>1.5600583749121926</precision></step> 
+<step> <id>0</id><status>WRONG</status><duration>35.705</duration><length>97.79999755069375</length><rotation> 25.91153757560156</rotation><precision>1.5600583749121926</precision></step> 
+<step> <id>0</id><status>WRONG</status><duration>35.745</duration><length>97.99999755069376</length><rotation> 25.91153757560156</rotation><precision>1.5600583749121926</precision></step> 
+<step> <id>0</id><status>WRONG</status><duration>36.308</duration><length>99.99999755069393</length><rotation> 25.91153757560156</rotation><precision>1.5600583749121926</precision></step> 
+<step> <id>0</id><status>WRONG</status><duration>36.348</duration><length>100.19999755069395</length><rotation> 25.91153757560156</rotation><precision>1.5600583749121926</precision></step> 
+<step> <id>4</id><status>RIGHT</status><duration>44.774</duration><length>128.79999755069628</length><rotation> 31.387112500791574</rotation><precision>1.6466723230181013</precision></step> 
+<step> <id>3</id><status>WRONG</status><duration>55.894</duration><length>160.49999755069447</length><rotation> 33.761605762325</rotation><precision>1.6466723230181013</precision></step> 
+<step> <id>2</id><status>WRONG</status><duration>61.785</duration><length>173.49999755069373</length><rotation> 36.00778987497306</rotation><precision>1.6466723230181013</precision></step> 

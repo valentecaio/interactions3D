@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ASCII" standalone="yes"?><test date='Mon_Jan_23_19_30_24_CET_2017'>
+<step> <id>0</id><status>RIGHT</status><duration>0.0</duration><length>0.0</length><rotation> 0.0</rotation><precision>0.0</precision></step> 
+<step> <id>0</id><status>WRONG</status><duration>0.02</duration><length>0.09999999999999994</length><rotation> 0.0</rotation><precision>0.0</precision></step> 
+<step> <id>1</id><status>RIGHT</status><duration>1.165</duration><length>5.7999999999999945</length><rotation> 0.0</rotation><precision>0.4490830901974258</precision></step> 
+<step> <id>1</id><status>WRONG</status><duration>10.268</duration><length>19.20000000000001</length><rotation> 4.957627773856792</rotation><precision>0.4490830901974258</precision></step> 
+<step> <id>1</id><status>WRONG</status><duration>10.771</duration><length>21.500000000000043</length><rotation> 4.957627773856792</rotation><precision>0.4490830901974258</precision></step> 
+<step> <id>1</id><status>WRONG</status><duration>23.702</duration><length>31.90000000000019</length><rotation> 12.32831531581934</rotation><precision>0.4490830901974258</precision></step> 
+<step> <id>1</id><status>WRONG</status><duration>24.827</duration><length>36.30000000000025</length><rotation> 12.32831531581934</rotation><precision>0.4490830901974258</precision></step> 
+<step> <id>2</id><status>RIGHT</status><duration>34.39</duration><length>82.70000000000383</length><rotation> 16.81598774250953</rotation><precision>0.7870941319093838</precision></step> 
+<step> <id>2</id><status>WRONG</status><duration>36.541</duration><length>85.70000000000408</length><rotation> 16.81598774250953</rotation><precision>0.7870941319093838</precision></step> 
+<step> <id>2</id><status>WRONG</status><duration>38.33</duration><length>93.70000000000476</length><rotation> 16.81598774250953</rotation><precision>0.7870941319093838</precision></step> 
+<step> <id>2</id><status>WRONG</status><duration>38.812</duration><length>95.90000000000495</length><rotation> 16.81598774250953</rotation><precision>0.7870941319093838</precision></step> 
