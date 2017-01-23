@@ -1,7 +1,5 @@
 package fr.etma.navigator.timeRecorder;
 
-import javax.media.j3d.TransformGroup;
-
 import fr.etma.navigator.shape.TargetShape;
 
 public abstract class Detector {

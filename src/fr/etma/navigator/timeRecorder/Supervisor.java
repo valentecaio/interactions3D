@@ -1,7 +1,5 @@
 package fr.etma.navigator.timeRecorder;
 
-import fr.etma.navigator.control.Navigator;
-import fr.etma.navigator.shape.TubeShape;
 
 public class Supervisor {
 

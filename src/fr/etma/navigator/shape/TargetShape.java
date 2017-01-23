@@ -6,7 +6,6 @@ import javax.media.j3d.ColoringAttributes;
 import javax.media.j3d.Geometry;
 import javax.media.j3d.Node;
 import javax.media.j3d.PolygonAttributes;
-import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.TransparencyAttributes;
