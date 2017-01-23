@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="lib/WiiRemoteJ.jar"/>
 	<classpathentry kind="lib" path="lib/j3d-vrml97.jar"/>
 	<classpathentry kind="lib" path="lib/jinput.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl-2.0rc2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
