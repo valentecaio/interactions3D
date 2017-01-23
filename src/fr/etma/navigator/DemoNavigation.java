@@ -26,6 +26,7 @@ import com.sun.j3d.utils.universe.SimpleUniverse;
 import com.sun.j3d.utils.universe.ViewingPlatform;
 
 import fr.etma.navigator.control.Navigator;
+import fr.etma.navigator.control.joystick.ControllerJoystick;
 import fr.etma.navigator.control.keyboard.NavigatorBehavior;
 import fr.etma.navigator.control.network.PilotageServerSocket;
 import fr.etma.navigator.control.wiimote.PilotageWiimoteBluetooth;
@@ -190,6 +191,12 @@ public class DemoNavigation extends JFrame {
 
 		Navigator navigator = new Navigator(viewpointTG);
 
+		ControllerJoystick gamepadThread = new ControllerJoystick(navigator);
+		gamepadThread.start();
+		System.out.println("passei aqui");
+		//cj.setSchedulingBounds(new BoundingSphere(new Point3d(), 1.0));
+		//viewpointTG.addChild(cj);
+		
 		NavigatorBehavior nb = new NavigatorBehavior(navigator);
 		nb.setSchedulingBounds(new BoundingSphere(new Point3d(), 1.0));
 		viewpointTG.addChild(nb);
