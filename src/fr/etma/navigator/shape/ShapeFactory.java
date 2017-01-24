@@ -12,20 +12,16 @@ import javax.media.j3d.PolygonAttributes;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.TransparencyAttributes;
-import javax.vecmath.AxisAngle4d;
 import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
-import javax.vecmath.Quat4d;
 import javax.vecmath.Vector3d;
 
 import org.jdesktop.j3d.loaders.vrml97.VrmlLoader;
 
 import com.sun.j3d.loaders.Scene;
 import com.sun.j3d.utils.geometry.Box;
-import com.sun.j3d.utils.geometry.Cylinder;
 
 import fr.etma.navigator.CollisionDetector;
-import fr.etma.navigator.timeRecorder.Detector;
 
 public class ShapeFactory {
 
