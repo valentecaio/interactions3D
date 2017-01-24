@@ -12,17 +12,17 @@ import net.java.games.input.EventQueue;
 import fr.etma.navigator.control.Navigator;
 
 public class ControllerJoystick extends Thread {
-
-	Controller[] ca;
-	int gp=0; //to store controller number of the gamepad
-	
 	// calibration
 	double trans_speed = 0.1;
 	double rotat_speed = 0.02;
+	int mode = 2;
 
+	// internal attributes
 	private Component[] components;
 	protected boolean finished ;
-
+	Controller[] ca;
+	int gp=0; //to store controller number of the gamepad
+	
 	protected Vector3d deltaT = new Vector3d () ;
 	protected Quat4d deltaR = new Quat4d () ;
 	protected Navigator navigator ;
@@ -125,35 +125,69 @@ public class ControllerJoystick extends Thread {
 			// joystick actions here
 			double transValue = value * trans_speed;
 			double rotationValue = value * rotat_speed;
-			/*
-			 * I commented these two because of the problem with same identifiers in my gamepad
-			 * BUT_LEFT_ANALOG_HORIZONTAL == BUT_RIGHT_ANALOG_VERTICAL
-			if(comp.getName().equals(BUT_RIGHT_ANALOG_HORIZONTAL)){
-				deltaT.x = transValue;
-			} else if(comp.getName().equals(BUT_RIGHT_ANALOG_VERTICAL)){
-				deltaT.z = transValue;
-			}  
-			*/
-			if(comp.getName().equals(BUT_LEFT_ANALOG_VERTICAL)){
-				deltaR.set(new AxisAngle4d (new Vector3d (1, 0, 0), -rotationValue));
-			} else if(comp.getName().equals(BUT_LEFT_ANALOG_HORIZONTAL)){
-				deltaR.set(new AxisAngle4d (new Vector3d (0, 1, 0), -rotationValue));
-			} else if(comp.getName().equals(BUT_R1)){
-				deltaT.z = (value>0) ? -trans_speed : 0;
-			} else if(comp.getName().equals(BUT_R2)){
-				deltaT.z = (value>0) ? trans_speed : 0;
-			} else if(comp.getName().equals(BUT_L1)){
-				deltaR.set(new AxisAngle4d (new Vector3d (0, 0, 1), -rotationValue));
-			} else if(comp.getName().equals(BUT_L2)){
-				deltaR.set(new AxisAngle4d (new Vector3d (0, 0, 1), rotationValue));
-			} else if(comp.getName().equals(BUT_1)){
-				deltaT.y = (value>0) ? trans_speed : 0;
-			} else if(comp.getName().equals(BUT_2)){
-				deltaT.x = (value>0) ? trans_speed : 0;
-			} else if(comp.getName().equals(BUT_3)){
-				deltaT.y = (value>0) ? -trans_speed : 0;
-			} else if(comp.getName().equals(BUT_4)){
-				deltaT.x = (value>0) ? -trans_speed : 0;
+			
+			if(this.mode == 1) {
+				/*
+				 * I commented these two because of the problem with same identifiers in my gamepad
+				 * BUT_LEFT_ANALOG_HORIZONTAL == BUT_RIGHT_ANALOG_VERTICAL
+				if(comp.getName().equals(BUT_RIGHT_ANALOG_HORIZONTAL)){
+					deltaT.x = transValue;
+				} else if(comp.getName().equals(BUT_RIGHT_ANALOG_VERTICAL)){
+					deltaT.z = transValue;
+				}  
+				*/
+				if(comp.getName().equals(BUT_LEFT_ANALOG_VERTICAL)){
+					deltaR.set(new AxisAngle4d (new Vector3d (1, 0, 0), -rotationValue));
+				} else if(comp.getName().equals(BUT_LEFT_ANALOG_HORIZONTAL)){
+					deltaR.set(new AxisAngle4d (new Vector3d (0, 1, 0), -rotationValue));
+				} else if(comp.getName().equals(BUT_R1)){
+					deltaT.z = (value>0) ? -trans_speed : 0;
+				} else if(comp.getName().equals(BUT_R2)){
+					deltaT.z = (value>0) ? trans_speed : 0;
+				} else if(comp.getName().equals(BUT_L1)){
+					deltaR.set(new AxisAngle4d (new Vector3d (0, 0, 1), -rotationValue));
+				} else if(comp.getName().equals(BUT_L2)){
+					deltaR.set(new AxisAngle4d (new Vector3d (0, 0, 1), rotationValue));
+				} else if(comp.getName().equals(BUT_1)){
+					deltaT.y = (value>0) ? trans_speed : 0;
+				} else if(comp.getName().equals(BUT_2)){
+					deltaT.x = (value>0) ? trans_speed : 0;
+				} else if(comp.getName().equals(BUT_3)){
+					deltaT.y = (value>0) ? -trans_speed : 0;
+				} else if(comp.getName().equals(BUT_4)){
+					deltaT.x = (value>0) ? -trans_speed : 0;
+				}
+			} else if(this.mode == 2) {
+				/*
+				 * I commented these two because of the problem with same identifiers in my gamepad
+				 * BUT_LEFT_ANALOG_HORIZONTAL == BUT_RIGHT_ANALOG_VERTICAL
+				if(comp.getName().equals(BUT_RIGHT_ANALOG_HORIZONTAL)){
+					deltaT.x = transValue;
+				} else if(comp.getName().equals(BUT_RIGHT_ANALOG_VERTICAL)){
+					deltaT.z = transValue;
+				}  
+				*/
+				if(comp.getName().equals(BUT_LEFT_ANALOG_VERTICAL)){
+					deltaT.y = -transValue;
+				} else if(comp.getName().equals(BUT_LEFT_ANALOG_HORIZONTAL)){
+					deltaT.x = transValue;
+				} else if(comp.getName().equals(BUT_R1)){
+					deltaT.z = (value>0) ? -trans_speed : 0;
+				} else if(comp.getName().equals(BUT_R2)){
+					deltaT.z = (value>0) ? trans_speed : 0;
+				} else if(comp.getName().equals(BUT_L1)){
+					deltaR.set(new AxisAngle4d (new Vector3d (0, 0, 1), -rotationValue));
+				} else if(comp.getName().equals(BUT_L2)){
+					deltaR.set(new AxisAngle4d (new Vector3d (0, 0, 1), rotationValue));
+				} else if(comp.getName().equals(BUT_1)){
+					deltaR.set(new AxisAngle4d (new Vector3d (1, 0, 0), rotationValue));
+				} else if(comp.getName().equals(BUT_2)){
+					deltaR.set(new AxisAngle4d (new Vector3d (0, 1, 0), -rotationValue));
+				} else if(comp.getName().equals(BUT_3)){
+					deltaR.set(new AxisAngle4d (new Vector3d (1, 0, 0), -rotationValue));
+				} else if(comp.getName().equals(BUT_4)){
+					deltaR.set(new AxisAngle4d (new Vector3d (0, 1, 0), rotationValue));
+				}
 			}
 			
 			System.out.println(buffer.toString());
