@@ -15,7 +15,7 @@ public class ControllerJoystick extends Thread {
 	// calibration
 	double trans_speed = 0.1;
 	double rotat_speed = 0.02;
-	int mode = 2;
+	int mode = 1;
 
 	// internal attributes
 	private Component[] components;
@@ -126,9 +126,11 @@ public class ControllerJoystick extends Thread {
 				double transValue = value * trans_speed;
 				double rotationValue = value * rotat_speed;
 				
+				
 				if(this.mode == 1) {
 					/*
-					 * I commented these two because of the problem with same identifiers in my gamepad
+					 * I commented these two because of the problem 
+					 * with same identifiers in my gamepad
 					 * BUT_LEFT_ANALOG_HORIZONTAL == BUT_RIGHT_ANALOG_VERTICAL
 				if(comp.getName().equals(BUT_RIGHT_ANALOG_HORIZONTAL)){
 					deltaT.x = transValue;
@@ -158,15 +160,6 @@ public class ControllerJoystick extends Thread {
 						deltaT.x = (value>0) ? -trans_speed : 0;
 					}
 				} else if(this.mode == 2) {
-					/*
-					 * I commented these two because of the problem with same identifiers in my gamepad
-					 * BUT_LEFT_ANALOG_HORIZONTAL == BUT_RIGHT_ANALOG_VERTICAL
-				if(comp.getName().equals(BUT_RIGHT_ANALOG_HORIZONTAL)){
-					deltaT.x = transValue;
-				} else if(comp.getName().equals(BUT_RIGHT_ANALOG_VERTICAL)){
-					deltaT.z = transValue;
-				}  
-					 */
 					if(comp.getName().equals(BUT_LEFT_ANALOG_VERTICAL)){
 						deltaT.y = -transValue;
 					} else if(comp.getName().equals(BUT_LEFT_ANALOG_HORIZONTAL)){

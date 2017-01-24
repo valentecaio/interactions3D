@@ -91,40 +91,6 @@ public class DemoNavigation extends JFrame {
 			tubeShapes [i-1] = virtualObject;
 			objRoot.addChild(virtualObject);
 		}
-
-		//objRoot.addChild(ShapeFactory.loadFile("data/niveau1.wrl",
-		//		new Vector3d(-2, 0, 0)));
-		// objRoot.addChild (loadFile ("data/niveau2.wrl", new Vector3d (-2, 0,
-		// 0))) ;
-		// objRoot.addChild (loadFile ("data/niveau0_plane.wrl", new Vector3d
-		// (-2, 0, 0))) ;
-		// objRoot.addChild (loadFile ("data/niveau0_plane1.wrl", new Vector3d
-		// (-2, 0, 0))) ;
-		// objRoot.addChild (loadFile ("data/niveau1_plane2.wrl", new Vector3d
-		// (-2, 0, 0))) ;
-		// objRoot.addChild (loadFile ("data/niveau1_plane3.wrl", new Vector3d
-		// (-2, 0, 0))) ;
-		// objRoot.addChild (loadFile ("colorcube3.wrl", new Vector3d (0, 0,
-		// 0))) ;
-
-		// add virtual objects
-		// TransformGroup virtualObject ;
-		// int dx = 10 ;
-		// int dy = 10 ;
-		// int dz = 10 ;
-		// int nx = 20 ;
-		// int ny = 20 ;
-		// int nz = 20 ;
-		// for (int i = -nx ; i < nx ; i++) {
-		// for (int j = -ny ; j < ny ; j++) {
-		// for (int k = -nz ; k < nz ; k++) {
-		// virtualObject = createCube (new Vector3d (i * dx, j * dy, k * dz),
-		// new Color3f (i * 0.6f / dx, j * 0.6f / dy, k * 0.6f / dz),
-		// new Color3f (i * 1.0f / dx, j * 1.0f / dy, k * 1.0f / dz)) ;
-		// objRoot.addChild (virtualObject) ;
-		// }
-		// }
-		// }
 		return objRoot;
 	}
 
