@@ -7,6 +7,7 @@ public abstract class Detector {
 	protected Supervisor supervisor;
 	protected boolean fired;
 	protected TargetShape target;
+	protected TargetShape nextTarget;
 
 	public Detector(Supervisor s) {
 		supervisor = s;
@@ -36,8 +37,13 @@ public abstract class Detector {
 
 	public abstract void end();
 
+	// devrait être renommé en setTarget
 	public void add(TargetShape s) {
 		target = s;
+	}
+	
+	public void setNextTarget(TargetShape s) {
+		nextTarget = s;
 	}
 	
 	public int getId() {

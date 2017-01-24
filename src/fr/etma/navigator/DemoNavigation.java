@@ -43,8 +43,8 @@ import fr.etma.navigator.timeRecorder.Supervisor;
 public class DemoNavigation extends JFrame {
 
 	/**
-    * 
-    */
+	 * 
+	 */
 	private static final long serialVersionUID = -7195818365236790571L;
 	private VirtualUniverse universe = null;
 	private Canvas3D canvas3D = null;
@@ -61,8 +61,10 @@ public class DemoNavigation extends JFrame {
 				listePositions[0], listePositions[1], new Color3f(0.0f, 0.0f,
 						1.0f), new Color3f(1.0f, 0.0f, 0.0f), detector);
 		detector.add(virtualBegin);
+		virtualBegin.setAware();
 		objRoot.addChild(virtualBegin);
-		
+
+		Detector previousDetector = detector ;
 		for (int i = 1; i < listePositions.length - 1; i++) {
 			detector = new IntermediateTimeCountDetector(supervisor);
 			TargetShape virtualObject = new TargetShape( i,
@@ -71,18 +73,25 @@ public class DemoNavigation extends JFrame {
 					new Color3f(1.0f, 0.0f, 0.0f),
 					detector);
 			detector.add(virtualObject);
+			if (previousDetector != null) {
+				previousDetector.setNextTarget (virtualObject) ;
+			}
 			objRoot.addChild(virtualObject);
+			previousDetector = detector ;
 		}
-		
+
 		detector = new StopTimeCountDetector(supervisor);
 		TargetShape virtualEnd = new TargetShape( listePositions.length - 1,
 				listePositions[listePositions.length - 1],
 				listePositions[listePositions.length - 2], new Color3f(0.0f,
 						0.0f, 1.0f), new Color3f(1.0f, 0.0f, 0.0f),
-				detector);
+						detector);
 		detector.add(virtualEnd);
 		objRoot.addChild(virtualEnd);
-		
+		if (previousDetector != null) {
+			previousDetector.setNextTarget (virtualEnd) ;
+		}
+
 		tubeShapes = new TubeShape[listePositions.length-1];
 		for (int i = 1; i < listePositions.length; i++) {
 			TubeShape virtualObject = new TubeShape(i,
@@ -94,7 +103,7 @@ public class DemoNavigation extends JFrame {
 		return objRoot;
 	}
 
-	
+
 	public void enableInteraction(BranchGroup objRoot) {
 		BoundingSphere bounds = new BoundingSphere(new Point3d(0, 0, 0), 100);
 		PickRotateBehavior prb = new PickRotateBehavior(objRoot, canvas3D,
@@ -159,10 +168,9 @@ public class DemoNavigation extends JFrame {
 
 		ControllerJoystick gamepadThread = new ControllerJoystick(navigator);
 		gamepadThread.start();
-		System.out.println("passei aqui");
 		//cj.setSchedulingBounds(new BoundingSphere(new Point3d(), 1.0));
 		//viewpointTG.addChild(cj);
-		
+
 		NavigatorBehavior nb = new NavigatorBehavior(navigator);
 		nb.setSchedulingBounds(new BoundingSphere(new Point3d(), 1.0));
 		viewpointTG.addChild(nb);
@@ -189,7 +197,7 @@ public class DemoNavigation extends JFrame {
 		supervisor = new Supervisor(measurer, listePositions.length - 2);
 		BranchGroup scene = createSceneGraph(listePositions);
 		measurer.setTubeShapes(tubeShapes);
-		
+
 		// enableInteraction (scene) ;
 		// compilation de la scène
 		scene.compile();

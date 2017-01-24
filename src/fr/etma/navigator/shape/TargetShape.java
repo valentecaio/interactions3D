@@ -6,6 +6,7 @@ import javax.media.j3d.ColoringAttributes;
 import javax.media.j3d.Geometry;
 import javax.media.j3d.Node;
 import javax.media.j3d.PolygonAttributes;
+import javax.media.j3d.Shape3D;
 import javax.media.j3d.Transform3D;
 import javax.media.j3d.TransformGroup;
 import javax.media.j3d.TransparencyAttributes;
@@ -24,6 +25,7 @@ public class TargetShape extends TransformGroup {
 
 	Transform3D translation = new Transform3D();
 	Color3f collisionColor;
+	Color3f awareColor = new Color3f (1, 1, 0) ;
 	Appearance shapeAppearance;
 	private int id;
 
@@ -142,5 +144,12 @@ public class TargetShape extends TransformGroup {
 
 	public int getId() {
 		return id;
+	}
+
+	public void setAware() {
+		// TODO Auto-generated method stub
+	    ColoringAttributes highlight = new ColoringAttributes (awareColor, ColoringAttributes.SHADE_GOURAUD);
+		shapeAppearance.setColoringAttributes (highlight) ;
+		
 	}
 }
