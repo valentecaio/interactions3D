@@ -13,19 +13,23 @@ import fr.etma.navigator.control.Navigator;
 
 public class ControllerJoystick extends Thread {
 	// calibration
-	double trans_speed = 0.1;
+	double trans_speed = 0.04;
 	double rotat_speed = 0.02;
-	int mode = 1;
+	double fact_aceleration_trans = 2;
+	double fact_aceleration_rotat = 2;
+	int mode = 3;
 
 	// internal attributes
 	private Component[] components;
 	protected boolean finished ;
 	Controller[] ca;
-	
+	private String lastButtom = "";
+	private boolean doublePush = false;
+
 	protected Vector3d deltaT = new Vector3d () ;
 	protected Quat4d deltaR = new Quat4d () ;
 	protected Navigator navigator ;
-	
+
 	// button names
 	final static String BUT_1 = "Trigger";
 	final static String BUT_2 = "Thumb";
@@ -43,7 +47,7 @@ public class ControllerJoystick extends Thread {
 	final static String BUT_LEFT_ANALOG_HORIZONTAL = "z"; // -1 to left, 1 to right
 	final static String BUT_LEFT_ANALOG_VERTICAL = "rx"; // -1 to up, 1 to down
 	final static String BUT_RIGHT_ANALOG_HORIZONTAL = "y"; // -1 to left, 1 to right
-	final static String BUT_RIGHT_ANALOG_VERTICAL = "z"; // -1 to up, 1 to down	
+	final static String BUT_RIGHT_ANALOG_VERTICAL = "ry"; // -1 to up, 1 to down	
 
 	public ControllerJoystick (Navigator navigator) {
 		super();
@@ -102,7 +106,7 @@ public class ControllerJoystick extends Thread {
 			c.poll();
 			EventQueue queue = c.getEventQueue();
 			Event event = new Event();
-			
+
 			while(queue.getNextEvent(event)) {
 				StringBuffer buffer = new StringBuffer(c.getName());
 				buffer.append(" at ");
@@ -110,7 +114,7 @@ public class ControllerJoystick extends Thread {
 				Component comp = event.getComponent();
 				buffer.append(comp.getName()).append(" changed to ");
 				float value = event.getValue();
-				
+
 				// sniffer here
 				if(comp.isAnalog()) {
 					buffer.append(value);
@@ -121,12 +125,12 @@ public class ControllerJoystick extends Thread {
 						buffer.append("Off");
 					}
 				}
-				
+
 				// joystick actions here
 				double transValue = value * trans_speed;
 				double rotationValue = value * rotat_speed;
-				
-				
+				doublePush = (value>0)? !doublePush && this.lastButtom.equals(comp.getName()) : doublePush ;
+
 				if(this.mode == 1) {
 					/*
 					 * I commented these two because of the problem 
@@ -181,8 +185,35 @@ public class ControllerJoystick extends Thread {
 					} else if(comp.getName().equals(BUT_4)){
 						deltaR.set(new AxisAngle4d (new Vector3d (0, 1, 0), rotationValue));
 					}
+				} else if(this.mode == 3) {
+					if(comp.getName().equals(BUT_LEFT_ANALOG_VERTICAL)){
+						deltaT.z = transValue;
+						/*} else if(comp.getName().equals(BUT_LEFT_ANALOG_HORIZONTAL)){
+						if (!lastButtom.equals("ry"))
+							deltaT.x = transValue;*/
+					} else if(comp.getName().equals(BUT_RIGHT_ANALOG_VERTICAL)){
+						deltaR.set(new AxisAngle4d (new Vector3d (1, 0, 0), -rotationValue));
+					} else if(comp.getName().equals(BUT_RIGHT_ANALOG_HORIZONTAL)){
+						deltaR.set(new AxisAngle4d (new Vector3d (0, 1, 0), -rotationValue));
+					}	else if(comp.getName().equals(BUT_R1)){
+						//deltaT.y = -transValue;
+					} else if(comp.getName().equals(BUT_R2)){
+						//deltaT.y = transValue;
+					} else if(comp.getName().equals(BUT_L1)){
+						//deltaR.set(new AxisAngle4d (new Vector3d (0, 0, 1), -rotationValue));
+					} else if(comp.getName().equals(BUT_L2)){
+						//deltaR.set(new AxisAngle4d (new Vector3d (0, 0, 1), rotationValue));
+					} else if(comp.getName().equals(BUT_1)){
+						deltaR.set(new AxisAngle4d (new Vector3d (1, 0, 0), rotationValue));
+					} else if(comp.getName().equals(BUT_2)){
+						deltaR.set(new AxisAngle4d (new Vector3d (0, 1, 0), -rotationValue));
+					} else if(comp.getName().equals(BUT_3)){
+						deltaR.set(new AxisAngle4d (new Vector3d (1, 0, 0), -rotationValue));
+					} else if(comp.getName().equals(BUT_4)){
+						deltaR.set(new AxisAngle4d (new Vector3d (0, 1, 0), rotationValue));
+					}
 				}
-				
+				this.lastButtom = (value>0)? comp.getName() : this.lastButtom;
 				System.out.println(buffer.toString());
 			}
 		}
@@ -196,7 +227,7 @@ public class ControllerJoystick extends Thread {
 		}
 		return -1;
 	}
-	
+
 	public void finish () {
 		finished = true ;
 	}
