@@ -20,11 +20,11 @@ public class ControllerJoystick extends Thread {
 	int mode = 3;
 
 	// internal attributes
-	private Component[] components;
 	protected boolean finished ;
 	Controller[] ca;
 	private String lastButtom = "";
 	private boolean doublePush = false;
+	private int start = 0;
 
 	protected Vector3d deltaT = new Vector3d () ;
 	protected Quat4d deltaR = new Quat4d () ;
@@ -55,14 +55,6 @@ public class ControllerJoystick extends Thread {
 		this.navigator = navigator ;
 
 		this.showGamepadInfo();
-
-		this.initComponents();
-	}
-
-	public void initComponents(){
-		ca = ControllerEnvironment.getDefaultEnvironment().getControllers();
-		Controller joypad = ca[0];
-		this.components = joypad.getComponents();
 	}
 
 	public void showGamepadInfo(){
@@ -108,6 +100,10 @@ public class ControllerJoystick extends Thread {
 			Event event = new Event();
 
 			while(queue.getNextEvent(event)) {
+				if (this.start < 2) { 
+					this.start++;
+					return;
+				}
 				StringBuffer buffer = new StringBuffer(c.getName());
 				buffer.append(" at ");
 				buffer.append(event.getNanos()).append(", ");
@@ -219,15 +215,6 @@ public class ControllerJoystick extends Thread {
 		}
 	}
 
-	private int indexOfComponent(Component comp){
-		for(int i=0; i<this.components.length; i++){
-			if(comp.equals(components[i])){
-				return i;
-			}
-		}
-		return -1;
-	}
-
 	public void finish () {
 		finished = true ;
 	}
@@ -238,8 +225,8 @@ public class ControllerJoystick extends Thread {
 			synchronized (deltaT) {
 				synchronized (deltaR) {
 					pollInput();
-					navigator.supportRotateInHeadFrame (deltaR.x, deltaR.y, deltaR.z, deltaR.w) ;
-					navigator.supportTranslateInHeadFrame (deltaT.x, deltaT.y, deltaT.z) ; 
+					navigator.supportRotateInHeadFrame(deltaR.x, deltaR.y, deltaR.z, deltaR.w);
+					navigator.supportTranslateInHeadFrame(deltaT.x, deltaT.y, deltaT.z);
 				}
 			}
 			try {
