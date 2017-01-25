@@ -33,6 +33,11 @@ public class NavigatorBehavior  extends Behavior {
    protected int xInit  ;
    protected int yInit  ;
    
+   // calibration
+   double trans_speed = 0.08; 
+   double rotat_speed = 0.02; 
+   double rotat_speed_mouse = 0.5;
+   
    protected Navigator navigator ;
    
    public NavigatorBehavior (Navigator navigator) {
@@ -67,17 +72,17 @@ public void initialize () {
                   if (events [i].getID () == KeyEvent.KEY_PRESSED) {
                      int k  =  ((KeyEvent)events [i]).getKeyCode() ;
                      if (k == KeyEvent.VK_UP) {
-                        deltaT.z = -0.1 ;
+                        deltaT.z = -trans_speed ;
                      } else if (k == KeyEvent.VK_DOWN) {
-                        deltaT.z = 0.1 ;
+                        deltaT.z = trans_speed ;
                      } else if (k == KeyEvent.VK_PAGE_UP) {
-                        deltaT.y = 0.1 ;
+                        //deltaT.y = 0.1 ;
                      } else if (k == KeyEvent.VK_PAGE_DOWN) {
-                        deltaT.y = -0.1 ;
+                        //deltaT.y = -0.1 ;
                      } else if (k == KeyEvent.VK_LEFT) {
-                        deltaR.set (new AxisAngle4d (new Vector3d (0, 1, 0), 0.02)) ;
+                        deltaR.set (new AxisAngle4d (new Vector3d (0, 1, 0), rotat_speed)) ;
                      } else if (k == KeyEvent.VK_RIGHT) {
-                        deltaR.set (new AxisAngle4d (new Vector3d (0, 1, 0), -0.02)) ;
+                        deltaR.set (new AxisAngle4d (new Vector3d (0, 1, 0), -rotat_speed)) ;
                      }
                   } else if (events [i].getID () == KeyEvent.KEY_RELEASED) {
                      int k  =  ((KeyEvent)events [i]).getKeyCode() ;
@@ -96,22 +101,6 @@ public void initialize () {
                      }
                   } else if (events [i].getID () == MouseEvent.MOUSE_WHEEL) {
                      MouseWheelEvent mwe  =  ((MouseWheelEvent)events [i]) ;
-                     //deltaT.y = deltaT.y + mwe.getPreciseWheelRotation () / 10 ;
-//                  } else if ((events [i].getID () == MouseEvent.MOUSE_DRAGGED) ||
-//                             (events [i].getID () == MouseEvent.MOUSE_PRESSED)) {
-//                     MouseEvent me  =  ((MouseEvent)events [i]) ;
-//                     int width = me.getComponent ().getWidth () ;
-//                     int height = me.getComponent ().getHeight () ;
-//                     int x = me.getX () ;
-//                     int y = me.getY () ;
-//                     double azimuth = Math.atan2 (width / 2.0 - x, 500.0) ;
-//                     double elevation = Math.atan2 (height / 2.0 - y, 500.0) ;
-//                     Quat4d azimuthR = new Quat4d () ;
-//                     azimuthR.set (new AxisAngle4d (0, 1, 0, azimuth)) ;
-//                     Quat4d elevationR = new Quat4d () ;
-//                     elevationR.set (new AxisAngle4d (1, 0, 0, elevation)) ;
-//                     absoluteR.mul (azimuthR, elevationR) ;
-//                     navigator.setHeadOrientationInSupportFrame (absoluteR.x, absoluteR.y, absoluteR.z, absoluteR.w);
                   } else if (events [i].getID () == MouseEvent.MOUSE_PRESSED) {
                      initHeadR = navigator.getHeadRotationInSupportFrame () ;
                      MouseEvent me  =  ((MouseEvent)events [i]) ;
@@ -119,14 +108,14 @@ public void initialize () {
                      yInit = me.getY () ;
                   } else if (events [i].getID () == MouseEvent.MOUSE_DRAGGED) {
                      MouseEvent me  =  ((MouseEvent)events [i]) ;
-                     int dx = me.getX () - xInit;
-                     int dy = me.getY () - yInit ;
+                     double dx = (me.getX () - xInit);
+                     double dy = (me.getY () - yInit);
                      double azimuth = Math.atan2 (dx, 500.0) ;
                      double elevation = Math.atan2 (dy, 500.0) ;
                      Quat4d azimuthR = new Quat4d () ;
-                     azimuthR.set (new AxisAngle4d (0, 1, 0, azimuth)) ;
+                     azimuthR.set (new AxisAngle4d (0, 1, 0, azimuth*rotat_speed_mouse)) ;
                      Quat4d elevationR = new Quat4d () ;
-                     elevationR.set (new AxisAngle4d (1, 0, 0, elevation)) ;
+                     elevationR.set (new AxisAngle4d (1, 0, 0, elevation*rotat_speed_mouse)) ;
                      Quat4d relativeR = new Quat4d () ;
                      relativeR.mul (azimuthR, elevationR) ;
                      absoluteR.mul (initHeadR, relativeR);

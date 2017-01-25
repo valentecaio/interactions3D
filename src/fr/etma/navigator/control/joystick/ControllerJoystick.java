@@ -13,7 +13,7 @@ import fr.etma.navigator.control.Navigator;
 
 public class ControllerJoystick extends Thread {
 	// calibration
-	double trans_speed = 0.04;
+	double trans_speed = 0.08;
 	double rotat_speed = 0.02;
 	double fact_aceleration_trans = 2;
 	double fact_aceleration_rotat = 2;
